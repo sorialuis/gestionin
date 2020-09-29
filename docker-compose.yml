@@ -1,0 +1,12 @@
+version: '2'
+
+services: 
+    backend:
+        build: ./backend
+
+    frontend:
+        build: ./frontend
+
+    db:
+        image: postgres:9.6.19-alpine
+        
