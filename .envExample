@@ -1,0 +1,3 @@
+postgres_db=<name-database>
+postgres_user=<user_name>
+postgres_password=<password_db>
