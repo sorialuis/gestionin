@@ -3,7 +3,8 @@ version: '2'
 services: 
     #api.gestionin.com
     backend:
-        build: ./backend 
+        build: ./backend/
+        command: python manage.py runserver 0.0.0.0:8000
         volumes:
             - ./backend/:/code
         ports:
