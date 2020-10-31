@@ -20,4 +20,3 @@ class Rol(GestioninModel):
 
     def __str__(self):
         return self.rol
-

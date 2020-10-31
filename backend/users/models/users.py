@@ -5,6 +5,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 
 
+
 # Utilities abstracto base
 from utils import GestioninModel
 from users.models import Rol
