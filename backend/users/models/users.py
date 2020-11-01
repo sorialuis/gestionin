@@ -3,7 +3,7 @@
 # Django
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
-
+from django.contrib.auth.models import UserManager
 
 
 # Utilities abstracto base
@@ -12,17 +12,18 @@ from users.models import Rol
 
 
 class User(GestioninModel, AbstractBaseUser):
+    USERNAME_FIELD = 'dni'
 
     dni = models.PositiveIntegerField(
         unique=True
     )
 
-    USERNAME_FIELD = 'dni'
-
     rol = models.ForeignKey(
         Rol,
         on_delete=models.CASCADE
     )
+
+    objects = UserManager()
 
     class Meta:
         db_table = 'auth_user'

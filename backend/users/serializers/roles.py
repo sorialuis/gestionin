@@ -20,3 +20,14 @@ class CreateRolSerializer(serializers.Serializer):
 
     def create(self, data):
         return Rol.objects.create(**data)
+
+
+class RolModelSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Rol
+        fields = (
+            'id',
+            'rol',
+            'auth_lvl'
+        )

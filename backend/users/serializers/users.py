@@ -28,8 +28,16 @@ class CreateUserSerializer(serializers.Serializer):
     rol_id = serializers.IntegerField()
 
     def create(self, data):
-        return User.objects.create(**data)
-
+        # user = User(**data)
+        # test = user.set_password(raw_password=user.password)
+        # print(test)
+        user = User(**data)
+        user.set_password(data['password'])
+        return User.objects.create(
+            dni=user.dni,
+            password=user.password,
+            rol=user.rol
+        )
 
 class UserModelSerializer(serializers.ModelSerializer):
     rol = serializers.StringRelatedField()
