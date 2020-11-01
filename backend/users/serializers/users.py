@@ -1,6 +1,7 @@
 # Users serializers
 
 # Django
+from django.utils import timezone
 from django.contrib.auth import (
     authenticate,
     password_validation
@@ -37,7 +38,7 @@ class UserSignUpSerializer(serializers.Serializer):
             password=user.password,
             rol=user.rol
         )
-        detail = DetalleUsuario.objects.create(user_id=user.id)
+        DetalleUsuario.objects.create(user_id=user.id)
         return user
 
 
@@ -75,6 +76,7 @@ class UserModelSerializer(serializers.ModelSerializer):
         fields = (
             'dni',
             'rol',
+            'is_active'
         )
 
 
@@ -91,10 +93,14 @@ class UserLoginSerializer(serializers.Serializer):
         )
         if not user:
             raise serializers.ValidationError('Invalid Credentials')
+        if not user.is_active:
+            raise serializers.ValidationError('User Inactive')
         self.context['user'] = user
         return data
 
     def create(self, data):
         # Generate or retrieve new token
+        self.context['user'].last_login = timezone.now()
+        self.context['user'].save()
         token, created = Token.objects.get_or_create(user=self.context['user'])
         return self.context['user'], token.key

@@ -53,8 +53,8 @@ class UserLoginAPIView(APIView):
             'user': UserModelSerializer(user).data,
             'access_token': token
         }
-        # return Response(data, status=status.HTTP_201_CREATED)
         return Response(data, status=status.HTTP_201_CREATED)
+
 
 class UserSignUpAPIView(APIView):
 

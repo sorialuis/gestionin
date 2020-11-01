@@ -23,6 +23,10 @@ class User(GestioninModel, AbstractBaseUser):
         on_delete=models.CASCADE
     )
 
+    is_active = models.BooleanField(
+        default=True
+    )
+
     objects = UserManager()
 
     class Meta:
