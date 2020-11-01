@@ -15,7 +15,6 @@ from users.models import User
 class UserSerializer(serializers.Serializer):
     dni = serializers.IntegerField()
     password = serializers.CharField()
-    # rol = serializers.RelatedField(source='id', read_only=True)
     rol = serializers.IntegerField()
 
 
@@ -33,15 +32,18 @@ class CreateUserSerializer(serializers.Serializer):
 
 
 class UserModelSerializer(serializers.ModelSerializer):
+    rol = serializers.StringRelatedField()
+
     class Meta:
         model = User
         fields = (
             'dni',
+            'rol',
         )
 
 
 class UserLoginSerializer(serializers.Serializer):
-    # Handle the login reques data
+    # Handle the login request data
     dni = serializers.IntegerField()
     password = serializers.CharField(min_length=8, max_length=64)
 

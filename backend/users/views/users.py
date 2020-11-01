@@ -46,20 +46,22 @@ class UserAPIView(APIView):
 
     def get(self, request, *args, **kwargs):
         users = User.objects.all()
-        data = []
-        for user in users:
-            data.append({
-                'dni': user.dni,
-                # 'rol': user.rol,
-            })
-        return Response(data)
+        # data = []
+        # for user in users:
+        #     data.append({
+        #         'dni': user.dni,
+        #         # 'rol': user.rol,
+        #     })
+        serializer = UserModelSerializer(users, many=True)
+        return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
         serializer = CreateUserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
         # return Response(UserSerializer(user).data)
-        return Response(serializer.data)
+        # return Response(serializer.data)
+        return Response(UserModelSerializer(user).data)
 
 
 class UserLoginAPIView(APIView):

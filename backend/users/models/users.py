@@ -24,5 +24,8 @@ class User(GestioninModel, AbstractBaseUser):
         on_delete=models.CASCADE
     )
 
+    class Meta:
+        db_table = 'auth_user'
+
     def __str__(self):
         return self.dni
