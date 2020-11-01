@@ -17,29 +17,8 @@ from users.serializers import (
     UserLoginSerializer,
     UserModelSerializer,
     CreateUserSerializer,
-    UserSerializer
+    UserSignUpSerializer
 )
-
-
-# @api_view()
-# def list_users(request):
-#     users = User.objects.all()
-#     data = []
-#     for user in users:
-#         data.append({
-#             'dni': user.dni,
-#             'rol': user.rol,
-#         })
-#     return Response(data)
-#
-#
-# @api_view(['POST'])
-# def create_user(request):
-#
-#     serializer = CreateUserSerializer(data=request.data)
-#     serializer.is_valid(raise_exception=True)
-#     user = serializer.save()
-#     return Response(UserSerializer(user).data)
 
 
 class UserAPIView(APIView):
@@ -75,5 +54,14 @@ class UserLoginAPIView(APIView):
             'access_token': token
         }
         # return Response(data, status=status.HTTP_201_CREATED)
-        return Response(data)
+        return Response(data, status=status.HTTP_201_CREATED)
+
+class UserSignUpAPIView(APIView):
+
+    def post(self, request, *args, **kwargs):
+        serializer = UserSignUpSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        data = UserModelSerializer(user).data
+        return Response(data, status=status.HTTP_201_CREATED)
 

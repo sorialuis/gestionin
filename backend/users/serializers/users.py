@@ -1,7 +1,10 @@
 # Users serializers
 
 # Django
-from django.contrib.auth import authenticate
+from django.contrib.auth import (
+    authenticate,
+    password_validation
+)
 
 # Django REST Framekork
 from rest_framework import serializers
@@ -10,12 +13,32 @@ from rest_framework.validators import UniqueValidator
 
 # Model
 from users.models import User
+from users.models import DetalleUsuario
 
 
-class UserSerializer(serializers.Serializer):
-    dni = serializers.IntegerField()
+class UserSignUpSerializer(serializers.Serializer):
+    dni = serializers.IntegerField(
+        validators=[
+            UniqueValidator(queryset=User.objects.all())
+        ]
+    )
     password = serializers.CharField()
-    rol = serializers.IntegerField()
+    rol_id = serializers.IntegerField()
+
+    def validate(self, data):
+        password_validation.validate_password(data['password'])
+        return data
+
+    def create(self, data):
+        user = User(**data)
+        user.set_password(data['password'])
+        user = User.objects.create(
+            dni=user.dni,
+            password=user.password,
+            rol=user.rol
+        )
+        detail = DetalleUsuario.objects.create(user_id=user.id)
+        return user
 
 
 class CreateUserSerializer(serializers.Serializer):
@@ -26,6 +49,10 @@ class CreateUserSerializer(serializers.Serializer):
     )
     password = serializers.CharField()
     rol_id = serializers.IntegerField()
+
+    def validate(self, data):
+        password_validation.validate_password(data['password'])
+        return data
 
     def create(self, data):
         # user = User(**data)
@@ -38,6 +65,7 @@ class CreateUserSerializer(serializers.Serializer):
             password=user.password,
             rol=user.rol
         )
+
 
 class UserModelSerializer(serializers.ModelSerializer):
     rol = serializers.StringRelatedField()
