@@ -54,7 +54,8 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
-    'users.apps.UsersAppConfig'
+    'users.apps.UsersAppConfig',
+    'core.apps.CoreAppConfig'
 ]
 
 
@@ -100,8 +101,13 @@ TEMPLATES = [
 # Admin
 ADMIN_URL = 'admin/'
 
+# Django REST Framework
 
-
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}
 
 WSGI_APPLICATION = 'gestionin.wsgi.application'
 

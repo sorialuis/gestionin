@@ -56,3 +56,5 @@ class RolAPIView(APIView):
         serializer.is_valid(raise_exception=True)
         rol = serializer.save()
         return Response(RolModelSerializer(rol).data)
+
+

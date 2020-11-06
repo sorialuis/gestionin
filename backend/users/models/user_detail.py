@@ -9,13 +9,22 @@ from django.core.validators import RegexValidator
 
 from utils import GestioninModel
 from users.models import User
+from core.models import Team
 
 
-class DetalleUsuario(GestioninModel):
-    user = models.ForeignKey(
+class UserDetails(GestioninModel):
+    user = models.OneToOneField(
         User,
-        related_name='login',
-        on_delete=models.CASCADE
+        primary_key=True,
+        on_delete=models.CASCADE,
+        related_name='detail'
+    )
+
+    team = models.ForeignKey(
+        Team,
+        related_name='team',
+        on_delete=models.SET_NULL,
+        null=True
     )
 
     phone_regex = RegexValidator(

@@ -7,14 +7,15 @@ from django.contrib.auth import (
     password_validation
 )
 
-# Django REST Framekork
+# Django REST Framework
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from rest_framework.validators import UniqueValidator
 
 # Model
 from users.models import User
-from users.models import DetalleUsuario
+from users.models import UserDetails
+from users.serializers import UserDetailsModelSerializer
 
 
 class UserSignUpSerializer(serializers.Serializer):
@@ -38,46 +39,24 @@ class UserSignUpSerializer(serializers.Serializer):
             password=user.password,
             rol=user.rol
         )
-        DetalleUsuario.objects.create(user_id=user.id)
+        UserDetails.objects.create(user_id=user.id)
         return user
-
-
-class CreateUserSerializer(serializers.Serializer):
-    dni = serializers.IntegerField(
-        validators=[
-            UniqueValidator(queryset=User.objects.all())
-        ]
-    )
-    password = serializers.CharField()
-    rol_id = serializers.IntegerField()
-
-    def validate(self, data):
-        password_validation.validate_password(data['password'])
-        return data
-
-    def create(self, data):
-        # user = User(**data)
-        # test = user.set_password(raw_password=user.password)
-        # print(test)
-        user = User(**data)
-        user.set_password(data['password'])
-        return User.objects.create(
-            dni=user.dni,
-            password=user.password,
-            rol=user.rol
-        )
 
 
 class UserModelSerializer(serializers.ModelSerializer):
     rol = serializers.StringRelatedField()
+    detail = UserDetailsModelSerializer()
+    # detail = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = User
         fields = (
             'dni',
             'rol',
-            'is_active'
-        )
+            'is_active',
+            'detail',
+         )
+
 
 
 class UserLoginSerializer(serializers.Serializer):
@@ -104,3 +83,5 @@ class UserLoginSerializer(serializers.Serializer):
         self.context['user'].save()
         token, created = Token.objects.get_or_create(user=self.context['user'])
         return self.context['user'], token.key
+
+
