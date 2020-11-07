@@ -46,7 +46,6 @@ class UserSignUpSerializer(serializers.Serializer):
 class UserModelSerializer(serializers.ModelSerializer):
     rol = serializers.StringRelatedField()
     detail = UserDetailsModelSerializer()
-    # detail = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = User
@@ -56,7 +55,6 @@ class UserModelSerializer(serializers.ModelSerializer):
             'is_active',
             'detail',
          )
-
 
 
 class UserLoginSerializer(serializers.Serializer):

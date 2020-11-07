@@ -23,21 +23,27 @@ from users.serializers import UserSignUpSerializer
 from users.serializers import UserDetailsModelSerializer
 
 
-class UserViewSet(viewsets.ModelViewSet):
+class UserViewSet(
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.ListModelMixin,
+    viewsets.GenericViewSet
+):
+
     queryset = User.objects.all()
     serializer_class = UserModelSerializer
     lookup_field = 'dni'
 
     def get_permissions(self):
-        permissions = False
-        if self.action in ['signup', 'login', 'verify']:
+        print(self.action)
+        if self.action in ['signup', 'login']:
             permissions = [AllowAny]
         elif self.action in ['retrieve', 'update', 'partial_update', 'profile']:
+            permissions = [IsAuthenticated, (IsAccountOwner | IsAdmin)]
+        elif self.action in ['list']:
+            permissions = [IsAuthenticated, IsAdmin]
+        else:
             permissions = [IsAuthenticated]
-            if not IsAdmin:
-                permissions.append(IsAccountOwner)
-        # else:
-        #     permissions = [IsAuthenticated]
         return [p() for p in permissions]
 
     @action(detail=False, methods=['post'])
