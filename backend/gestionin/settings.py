@@ -49,16 +49,17 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
+    'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 LOCAL_APPS = [
-    'users.apps.UsersAppConfig'
+    'users.apps.UsersAppConfig',
+    'core.apps.CoreAppConfig'
 ]
 
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
-
-
 
 
 
@@ -96,11 +97,17 @@ TEMPLATES = [
 ]
 
 
+
 # Admin
 ADMIN_URL = 'admin/'
 
+# Django REST Framework
 
-
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}
 
 WSGI_APPLICATION = 'gestionin.wsgi.application'
 
@@ -153,3 +160,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+

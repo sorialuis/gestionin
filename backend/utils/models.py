@@ -2,6 +2,7 @@
 
 # Django
 from django.db import models
+from datetime import datetime
 
 
 class GestioninModel(models.Model):
@@ -10,13 +11,15 @@ class GestioninModel(models.Model):
     created = models.DateTimeField(
         'created at',
         # Se graba la fecha de forma automatica
-        auto_now_add=True,
+        default=datetime.now,
+        # auto_now_add=True,
         help_text='Cuando el objeto fue creado'
     )
 
     modified = models.DateTimeField(
         'modified at',
-        auto_now=True,
+        default=datetime.now,
+        # auto_now=True,
         help_text='Cuando fue modificado por ultima vez'
     )
 

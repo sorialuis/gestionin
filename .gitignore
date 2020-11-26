@@ -4,3 +4,4 @@ __pycache__/
 .envs
 .idea/
 db/
+datos.sql
