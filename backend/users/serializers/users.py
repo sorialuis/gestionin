@@ -16,7 +16,7 @@ from rest_framework.validators import UniqueValidator
 from users.models import User
 from users.models import UserDetails
 from users.serializers import UserDetailsModelSerializer
-
+# from core.serializers import TeamModelSerializer
 
 class UserSignUpSerializer(serializers.Serializer):
     dni = serializers.IntegerField(
@@ -45,16 +45,21 @@ class UserSignUpSerializer(serializers.Serializer):
 
 class UserModelSerializer(serializers.ModelSerializer):
     rol = serializers.StringRelatedField()
+    # team = TeamModelSerializer()
+    team = serializers.StringRelatedField()
+    # team = serializers.PrimaryKeyRelatedField(read_only=True)
     detail = UserDetailsModelSerializer()
 
     class Meta:
         model = User
         fields = (
+            'id',
             'dni',
             'rol',
+            'team',
             'is_active',
             'detail',
-         )
+        )
 
 
 class UserLoginSerializer(serializers.Serializer):
@@ -81,5 +86,3 @@ class UserLoginSerializer(serializers.Serializer):
         self.context['user'].save()
         token, created = Token.objects.get_or_create(user=self.context['user'])
         return self.context['user'], token.key
-
-

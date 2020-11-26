@@ -20,4 +20,5 @@ from django.conf import settings
 urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
     path('', include(('users.urls', 'users'), namespace='user')),
+    path('', include(('core.urls', 'teams'), namespace='teams'))
 ]

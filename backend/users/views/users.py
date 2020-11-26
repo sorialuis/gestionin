@@ -35,7 +35,6 @@ class UserViewSet(
     lookup_field = 'dni'
 
     def get_permissions(self):
-        print(self.action)
         if self.action in ['signup', 'login']:
             permissions = [AllowAny]
         elif self.action in ['retrieve', 'update', 'partial_update', 'profile']:

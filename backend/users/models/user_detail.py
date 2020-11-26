@@ -9,7 +9,6 @@ from django.core.validators import RegexValidator
 
 from utils import GestioninModel
 from users.models import User
-from core.models import Team
 
 
 class UserDetails(GestioninModel):
@@ -18,13 +17,6 @@ class UserDetails(GestioninModel):
         primary_key=True,
         on_delete=models.CASCADE,
         related_name='detail'
-    )
-
-    team = models.ForeignKey(
-        Team,
-        related_name='team',
-        on_delete=models.SET_NULL,
-        null=True
     )
 
     phone_regex = RegexValidator(
