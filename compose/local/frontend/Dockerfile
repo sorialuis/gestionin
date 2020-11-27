@@ -2,14 +2,15 @@ FROM node:15.3.0-alpine
 
 WORKDIR /usr/srs/app
 
-COPY package*.json
+COPY ./frontend/package*.json ./
+COPY ./frontend/webpack.config.js ./
 
 RUN npm install
 
-COPY ./src ./src
-COPY ./public ./public
+COPY ./frontend/src ./src
+COPY ./frontend/public ./public
 
-RUN npm run-script build
+#RUN npm run-script build
 
 EXPOSE 5000
 

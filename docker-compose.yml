@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 services: 
     # api.gestionin.com
@@ -20,13 +20,18 @@ services:
 
 
 
-    # #gestionin.com
+    #gestionin.com
     frontend:
         build:
-            context: ./frontend
+            context: .
             dockerfile: ./compose/local/frontend/Dockerfile
-        ports:
-        -   80:5000
+#        command: npm run serve
+#    frontend:
+#        build:
+#            context: .
+#            dockerfile: ./compose/local/frontend/Dockerfile
+#        ports:
+#            - 80:5000
 
 
 
