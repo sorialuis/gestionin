@@ -21,8 +21,12 @@ services:
 
 
     # #gestionin.com
-    # frontend:
-    #     build: ./frontend
+    frontend:
+        build:
+            context: ./frontend
+            dockerfile: ./compose/local/frontend/Dockerfile
+        ports:
+        -   80:5000
 
 
 
