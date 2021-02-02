@@ -1,5 +1,5 @@
 <script>
-    import FullCalendar, { Draggable } from 'svelte-fullcalendar';
+    import FullCalendar from 'svelte-fullcalendar';
     import dayGridPlugin from '@fullcalendar/daygrid';
     import timeGridPlugin from '@fullcalendar/timegrid';
     import interactionPlugin from '@fullcalendar/interaction'; // needed for dateClick
@@ -8,7 +8,6 @@
         droppable: true,
         editable: true,
         events: [
-            // initial event data
             { title: 'New Event', start: new Date() },
         ],
         initialView: 'dayGridMonth',
@@ -23,14 +22,8 @@
     };
     let calendarComponentRef;
     let eventData = { title: 'my event', duration: '02:00' };
-    function toggleWeekends() {
-        options.weekends = !options.weekends;
-        options = { ...options };
-    }
-    function gotoPast() {
-        let calendarApi = calendarComponentRef.getAPI();
-        calendarApi.gotoDate('2000-01-01'); // call a method on the Calendar object
-    }
+
+
     function handleDateClick(event) {
         if (
             confirm('Would you like to add an event to ' + event.dateStr + ' ?')
@@ -39,7 +32,7 @@
             const calendarEvents = [
                 ...events,
                 {
-                    title: 'New Event',
+                    title: 'Evento Cris puto',
                     start: event.date,
                     allDay: event.allDay,
                 },
@@ -53,42 +46,15 @@
 </script>
 
 <style>
-    .demo-app {
-        width: 100vw;
-        height: 100vh;
-        font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-        font-size: 14px;
-    }
-    .demo-app-top {
-        margin: 0 0 3em;
-    }
+
     .demo-app-calendar {
         margin: 0 auto;
-        max-width: 900px;
+        width: 60%;
     }
-    :global(.draggable) {
-        color: white;
-        background: #3788d8;
-        width: fit-content;
-        padding: 1rem;
-        margin: 1rem;
-        cursor: pointer;
-    }
+
 </style>
 
 <div class="demo-app">
-    <div class="demo-app-top">
-        <button on:click={toggleWeekends}>toggle weekends</button> &nbsp; <button
-            on:click={gotoPast}>go to a date in the past</button> &nbsp; (also, click
-        a date/time to add an event)
-    </div>
-
-    <div>
-        <Draggable {eventData} class="draggable">
-            Drag me in Week or Day view!
-        </Draggable>
-    </div>
-
     <div class="demo-app-calendar">
         <FullCalendar bind:this={calendarComponentRef} {options} />
     </div>
