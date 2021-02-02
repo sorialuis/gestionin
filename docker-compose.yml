@@ -53,7 +53,7 @@ services:
         
 
     # traefik:
-    #     image: traefik:v2.3.1
+    #    image: traefik:v2.3.1
     #     container_name: "traefik"
     #     command:
     #         - "--api.insecure=true" 
