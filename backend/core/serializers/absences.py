@@ -11,7 +11,7 @@ class AbsenceModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Absence
         fields = (
-            'id',
+            # 'id',
             'user',
             'day',
             'note',
